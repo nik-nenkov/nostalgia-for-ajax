@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Nostalgia for AJAX</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 2em; }
+    .dynamic-section { border: 2px dashed #888; padding: 1em; margin-top: 2em; min-height: 100px; }
+    button { margin-right: 1em; }
+  </style>
+</head>
+<body>
+  <h1>Lorem Ipsum Dolor</h1>
+  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque vitae velit ex.</p>
+  <h2>Sed Do Eiusmod</h2>
+  <p>Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+
+  <div>
+    <button onclick="loadPage('page_01.html')">Show Page 01</button>
+    <button onclick="loadPage('page_02.html')">Show Page 02</button>
+  </div>
+
+  <div id="dynamic-content" class="dynamic-section">
+    <!-- AJAX-loaded content will appear here -->
+    <em>Click a button to load content dynamically!</em>
+  </div>
+
+  <script>
+    function loadPage(page) {
+      fetch(page + '?_=' + Math.random())
+        .then(response => response.text())
+        .then(html => {
+          document.getElementById('dynamic-content').innerHTML = html;
+        })
+        .catch(() => {
+          document.getElementById('dynamic-content').innerHTML = '<span style="color:red;">Failed to load content.</span>';
+        });
+    }
+  </script>
+</body>
+</html>
