@@ -16,21 +16,25 @@
   <p>Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
 
   <div>
-    <button onclick="loadPage('page_01.html')">Show Page 01</button>
-    <button onclick="loadPage('page_02.html')">Show Page 02</button>
+    <button id="switch-btn" onclick="switchPage()">Show Page 01</button>
   </div>
 
   <div id="dynamic-content" class="dynamic-section">
     <!-- AJAX-loaded content will appear here -->
-    <em>Click a button to load content dynamically!</em>
+    <em>Click the button to load content dynamically!</em>
   </div>
 
   <script>
-    function loadPage(page) {
+    let currentPage = 1;
+    function switchPage() {
+      const page = currentPage === 1 ? 'page_01.html' : 'page_02.html';
       fetch(page + '?_=' + Math.random())
         .then(response => response.text())
         .then(html => {
           document.getElementById('dynamic-content').innerHTML = html;
+          // Toggle page for next click
+          currentPage = currentPage === 1 ? 2 : 1;
+          document.getElementById('switch-btn').textContent = currentPage === 1 ? 'Show Page 01' : 'Show Page 02';
         })
         .catch(() => {
           document.getElementById('dynamic-content').innerHTML = '<span style="color:red;">Failed to load content.</span>';
